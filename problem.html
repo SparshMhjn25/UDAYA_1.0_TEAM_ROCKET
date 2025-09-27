@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Problem - Interview ACE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #030307;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background: radial-gradient(circle at 20% 30%, rgba(106,17,203,0.25), transparent 60%),
+                  radial-gradient(circle at 80% 70%, rgba(0,114,255,0.25), transparent 60%),
+                  radial-gradient(circle at 50% 50%, rgba(54,209,220,0.2), transparent 70%);
+    }
+    
+    .navbar {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 50px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+    }
+    
+    .logo {
+      font-family: 'Monoton', cursive;
+      font-size: 34px;
+      color: #fff;
+      text-shadow: 0 0 8px cyan, 0 0 16px purple;
+    }
+    
+    .nav-links a {
+      margin-left: 30px;
+      text-decoration: none;
+      color: #aaa;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: #fff;
+    }
+    
+    .container {
+      position: relative;
+      z-index: 5;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      min-height: calc(100vh - 100px);
+    }
+    
+    .problem-section {
+      background: rgba(17, 17, 17, 0.9);
+      border-radius: 12px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(54, 209, 220, 0.2);
+    }
+    
+    .problem-header {
+      border-bottom: 2px solid rgba(54, 209, 220, 0.3);
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .problem-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    
+    .problem-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    
+    .difficulty {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .difficulty.easy {
+      background: rgba(0, 255, 0, 0.2);
+      color: #00ff00;
+      border: 1px solid #00ff00;
+    }
+    
+    .difficulty.medium {
+      background: rgba(255, 165, 0, 0.2);
+      color: #ffa500;
+      border: 1px solid #ffa500;
+    }
+    
+    .difficulty.hard {
+      background: rgba(255, 0, 0, 0.2);
+      color: #ff0000;
+      border: 1px solid #ff0000;
+    }
+    
+    .problem-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .tag {
+      background: rgba(54, 209, 220, 0.2);
+      color: cyan;
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 12px;
+      border: 1px solid cyan;
+    }
+    
+    .problem-description {
+      line-height: 1.7;
+      font-size: 16px;
+      color: #ddd;
+    }
+    
+    .problem-links {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    
+    .problem-link {
+      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .problem-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(54, 209, 220, 0.4);
+    }
+    
+    .code-section {
+      background: rgba(17, 17, 17, 0.9);
+      border-radius: 12px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(54, 209, 220, 0.2);
+    }
+    
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid rgba(54, 209, 220, 0.3);
+      padding-bottom: 15px;
+    }
+    
+    .code-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+    
+    .language-selector {
+      padding: 8px 15px;
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+    
+    .language-selector:focus {
+      border-color: cyan;
+      box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+    }
+    
+    .code-editor {
+      position: relative;
+    }
+    
+    .code-textarea {
+      width: 100%;
+      height: 400px;
+      background: #0d1117;
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      padding: 20px;
+      resize: vertical;
+      outline: none;
+      line-height: 1.5;
+      box-sizing: border-box;
+    }
+    
+    .code-textarea:focus {
+      border-color: cyan;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+    
+    .code-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .submit-btn {
+      background: linear-gradient(45deg, #00ff00, #32cd32);
+      color: black;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
+    }
+    
+    .submit-btn:disabled {
+      background: #444;
+      color: #666;
+      cursor: not-allowed;
+    }
+    
+    .clear-btn {
+      background: transparent;
+      color: #aaa;
+      padding: 12px 20px;
+      border: 1px solid #444;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .clear-btn:hover {
+      border-color: cyan;
+      color: cyan;
+    }
+    
+    .evaluation-result {
+      margin-top: 25px;
+      padding: 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.6;
+      display: none;
+    }
+    
+    .evaluation-result.success {
+      background: rgba(0, 255, 0, 0.1);
+      border: 1px solid #00ff00;
+      color: #66ff66;
+    }
+    
+    .evaluation-result.error {
+      background: rgba(255, 0, 0, 0.1);
+      border: 1px solid #ff4444;
+      color: #ff6666;
+    }
+    
+    .evaluation-result.partial {
+      background: rgba(255, 165, 0, 0.1);
+      border: 1px solid #ffa500;
+      color: #ffb366;
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #444;
+      border-top: 2px solid cyan;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .back-btn {
+      position: fixed;
+      top: 120px;
+      left: 30px;
+      background: rgba(54, 209, 220, 0.2);
+      color: cyan;
+      padding: 10px 20px;
+      border: 1px solid cyan;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      z-index: 10;
+    }
+    
+    .back-btn:hover {
+      background: cyan;
+      color: black;
+      transform: translateX(-5px);
+    }
+    
+    .progress-indicator {
+      position: fixed;
+      top: 120px;
+      right: 30px;
+      background: rgba(17, 17, 17, 0.9);
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid rgba(54, 209, 220, 0.3);
+      z-index: 10;
+    }
+    
+    .progress-text {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 5px;
+    }
+    
+    .progress-status {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .status-pending {
+      color: #aaa;
+    }
+    
+    .status-completed {
+      color: #00ff00;
+    }
+    
+    @media (max-width: 1200px) {
+      .container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .back-btn {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 20px;
+        display: inline-block;
+      }
+      
+      .progress-indicator {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-bottom: 20px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 20px;
+      }
+      
+      .container {
+        padding: 15px;
+      }
+      
+      .problem-section, .code-section {
+        padding: 20px;
+      }
+      
+      .problem-title {
+        font-size: 24px;
+      }
+      
+      .code-title {
+        font-size: 20px;
+      }
+      
+      .code-textarea {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  
+  <header class="navbar">
+    <div class="logo">EZ</div>
+    <nav class="nav-links">
+      <a href="#" onclick="goBack()">← Back to Problems</a>
+    </nav>
+  </header>
+  
+  <a href="#" class="back-btn" onclick="goBack()">← Back to Problems</a>
+  
+  <div class="progress-indicator">
+    <div class="progress-text">Problem Status:</div>
+    <div class="progress-status status-pending" id="problemStatus">Not Attempted</div>
+  </div>
+  
+  <div class="container">
+    <!-- Problem Description Section -->
+    <div class="problem-section">
+      <div class="problem-header">
+        <h1 class="problem-title" id="problemTitle">Loading Problem...</h1>
+        <div class="problem-meta">
+          <span class="difficulty" id="problemDifficulty">-</span>
+          <div class="problem-tags" id="problemTags"></div>
+        </div>
+      </div>
+      
+      <div class="problem-description" id="problemDescription">
+        <p>Loading problem description...</p>
+      </div>
+      
+      <div class="problem-links">
+        <a href="#" class="problem-link" id="leetcodeLink" target="_blank">View on LeetCode</a>
+        <a href="#" class="problem-link" id="discussionLink" target="_blank">View Solutions</a>
+      </div>
+    </div>
+    
+    <!-- Code Editor Section -->
+    <div class="code-section">
+      <div class="code-header">
+        <h2 class="code-title">Solution</h2>
+        <select class="language-selector" id="languageSelector">
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+          <option value="cpp">C++</option>
+          <option value="javascript">JavaScript</option>
+          <option value="go">Go</option>
+        </select>
+      </div>
+      
+      <div class="code-editor">
+        <textarea class="code-textarea" id="codeInput" placeholder="Write your solution here..."></textarea>
+      </div>
+      
+      <div class="code-actions">
+        <button class="submit-btn" id="submitBtn" onclick="evaluateCode()">
+          Submit Solution
+        </button>
+        <button class="clear-btn" onclick="clearCode()">Clear</button>
+      </div>
+      
+      <div class="evaluation-result" id="evaluationResult"></div>
+    </div>
+  </div>
+
+  <script>
+    let currentProblem = null;
+    
+    // Get problem data from URL parameters or localStorage
+    function getCurrentProblem() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const problemId = urlParams.get('id');
+      const title = urlParams.get('title');
+      const difficulty = urlParams.get('difficulty');
+      const tags = urlParams.get('tags');
+      const url = urlParams.get('url');
+      const discussionUrl = urlParams.get('discussion');
+      
+      if (problemId) {
+        return {
+          id: problemId,
+          title: decodeURIComponent(title || 'Unknown Problem'),
+          difficulty: difficulty || 'Unknown',
+          tags: tags ? decodeURIComponent(tags).split(',') : [],
+          url: decodeURIComponent(url || '#'),
+          discussionUrl: decodeURIComponent(discussionUrl || '#')
+        };
+      }
+      
+      // Fallback to localStorage if URL params not available
+      const storedProblem = JSON.parse(localStorage.getItem('currentProblem') || 'null');
+      return storedProblem;
+    }
+    
+    // Mock problem descriptions - in a real app, this would come from an API
+    const problemDescriptions = {
+      'two-sum': {
+        description: `
+          <p><strong>Problem Statement:</strong></p>
+          <p>Given an array of integers <code>nums</code> and an integer <code>target</code>, return indices of the two numbers such that they add up to target.</p>
+          
+          <p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+          
+          <p><strong>Example 1:</strong></p>
+          <pre>Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].</pre>
+          
+          <p><strong>Example 2:</strong></p>
+          <pre>Input: nums = [3,2,4], target = 6
+Output: [1,2]</pre>
+          
+          <p><strong>Constraints:</strong></p>
+          <ul>
+            <li>2 ≤ nums.length ≤ 10⁴</li>
+            <li>-10⁹ ≤ nums[i] ≤ 10⁹</li>
+            <li>-10⁹ ≤ target ≤ 10⁹</li>
+            <li>Only one valid answer exists.</li>
+          </ul>
+        `
+      },
+      'add-two-numbers': {
+        description: `
+          <p><strong>Problem Statement:</strong></p>
+          <p>You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.</p>
+          
+          <p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
+          
+          <p><strong>Example 1:</strong></p>
+          <pre>Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [7,0,8]
+Explanation: 342 + 465 = 807.</pre>
+          
+          <p><strong>Constraints:</strong></p>
+          <ul>
+            <li>The number of nodes in each linked list is in the range [1, 100].</li>
+            <li>0 ≤ Node.val ≤ 9</li>
+            <li>It is guaranteed that the list represents a number that does not have leading zeros.</li>
+          </ul>
+        `
+      }
+      // Add more problem descriptions as needed
+    };
+    
+    // Code templates for different languages
+    const codeTemplates = {
+      python: {
+        'two-sum': `def twoSum(nums, target):
+    """
+    :type nums: List[int]
+    :type target: int
+    :rtype: List[int]
+    """
+    # Your solution here
+    pass`,
+        'default': `def solution():
+    """
+    Write your solution here
+    """
+    pass`
+      },
+      java: {
+        'two-sum': `class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        // Your solution here
+        return new int[]{};
+    }
+}`,
+        'default': `class Solution {
+    public int[] solution() {
+        // Your solution here
+        return new int[]{};
+    }
+}`
+      },
+      cpp: {
+        'two-sum': `class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        // Your solution here
+        return {};
+    }
+};`,
+        'default': `class Solution {
+public:
+    vector<int> solution() {
+        // Your solution here
+        return {};
+    }
+};`
+      },
+      javascript: {
+        'two-sum': `/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    // Your solution here
+};`,
+        'default': `/**
+ * Write your solution here
+ */
+var solution = function() {
+    // Your solution here
+};`
+      },
+      go: {
+        'two-sum': `func twoSum(nums []int, target int) []int {
+    // Your solution here
+    return []int{}
+}`,
+        'default': `func solution() []int {
+    // Your solution here
+    return []int{}
+}`
+      }
+    };
+    
+    function initializePage() {
+      currentProblem = getCurrentProblem();
+      
+      if (!currentProblem) {
+        document.getElementById('problemTitle').textContent = 'Problem Not Found';
+        document.getElementById('problemDescription').innerHTML = '<p>Could not load problem data. Please go back and select a problem.</p>';
+        return;
+      }
+      
+      // Update page title
+      document.title = `${currentProblem.title} - Interview ACE`;
+      
+      // Update problem details
+      document.getElementById('problemTitle').textContent = currentProblem.title;
+      
+      const difficultyElement = document.getElementById('problemDifficulty');
+      difficultyElement.textContent = currentProblem.difficulty;
+      difficultyElement.className = `difficulty ${currentProblem.difficulty.toLowerCase()}`;
+      
+      // Update tags
+      const tagsContainer = document.getElementById('problemTags');
+      tagsContainer.innerHTML = '';
+      if (currentProblem.tags && currentProblem.tags.length > 0) {
+        currentProblem.tags.forEach(tag => {
+          const tagElement = document.createElement('span');
+          tagElement.className = 'tag';
+          tagElement.textContent = tag;
+          tagsContainer.appendChild(tagElement);
+        });
+      }
+      
+      // Update links
+      document.getElementById('leetcodeLink').href = currentProblem.url;
+      document.getElementById('discussionLink').href = currentProblem.discussionUrl;
+      
+      // Update problem description
+      const problemSlug = currentProblem.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      const description = problemDescriptions[problemSlug] || {
+        description: `
+          <p><strong>Problem Statement:</strong></p>
+          <p>This is the problem: <strong>${currentProblem.title}</strong></p>
+          <p>Difficulty: <strong>${currentProblem.difficulty}</strong></p>
+          <p>Please visit the LeetCode link above to view the full problem description, examples, and constraints.</p>
+          <p><strong>Note:</strong> Write your solution in the code editor and submit it for AI evaluation.</p>
+        `
+      };
+      document.getElementById('problemDescription').innerHTML = description.description;
+      
+      // Initialize code editor
+      updateCodeTemplate();
+      
+      // Check if problem was previously completed
+      checkProblemStatus();
+    }
+    
+    function updateCodeTemplate() {
+      const language = document.getElementById('languageSelector').value;
+      const codeInput = document.getElementById('codeInput');
+      const problemSlug = currentProblem ? currentProblem.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') : 'default';
+      
+      const template = codeTemplates[language][problemSlug] || codeTemplates[language]['default'];
+      
+      // Only set template if textarea is empty
+      if (!codeInput.value.trim()) {
+        codeInput.value = template;
+      }
+    }
+    
+    function clearCode() {
+      const codeInput = document.getElementById('codeInput');
+      codeInput.value = '';
+      updateCodeTemplate();
+      hideEvaluationResult();
+    }
+    
+    function hideEvaluationResult() {
+      const resultDiv = document.getElementById('evaluationResult');
+      resultDiv.style.display = 'none';
+    }
+    
+    function showEvaluationResult(type, message) {
+      const resultDiv = document.getElementById('evaluationResult');
+      resultDiv.className = `evaluation-result ${type}`;
+      resultDiv.innerHTML = message;
+      resultDiv.style.display = 'block';
+    }
+    
+    async function evaluateCode() {
+      const codeInput = document.getElementById('codeInput');
+      const submitBtn = document.getElementById('submitBtn');
+      const code = codeInput.value.trim();
+      
+      if (!code) {
+        showEvaluationResult('error', '❌ Please write some code before submitting.');
+        return;
+      }
+      
+      // Show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="loading-spinner"></span>Evaluating...';
+      hideEvaluationResult();
+      
+      try {
+        // Simulate AI evaluation (replace with actual AI API call)
+        const evaluation = await simulateAIEvaluation(code, currentProblem);
+        
+        showEvaluationResult(evaluation.type, evaluation.message);
+        
+        if (evaluation.type === 'success') {
+          markProblemAsCompleted();
+        }
+        
+      } catch (error) {
+        console.error('Evaluation error:', error);
+        showEvaluationResult('error', '❌ An error occurred during evaluation. Please try again.');
+      } finally {
+        // Reset button state
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Submit Solution';
+      }
+    }
+    
+    async function simulateAIEvaluation(code, problem) {
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 2000));
+      
+      const language = document.getElementById('languageSelector').value;
+      
+      // Simple heuristic evaluation (replace with actual AI API)
+      const codeAnalysis = analyzeCode(code, language, problem);
+      
+      if (codeAnalysis.score >= 80) {
+        return {
+          type: 'success',
+          message: `
+            ✅ <strong>Excellent Solution!</strong><br>
+            <strong>Score:</strong> ${codeAnalysis.score}/100<br>
+            <strong>Analysis:</strong> ${codeAnalysis.feedback}<br>
+            <strong>Time Complexity:</strong> ${codeAnalysis.timeComplexity}<br>
+            <strong>Space Complexity:</strong> ${codeAnalysis.spaceComplexity}<br>
+            🎉 Problem marked as completed!
+          `
+        };
+      } else if (codeAnalysis.score >= 50) {
+        return {
+          type: 'partial',
+          message: `
+            ⚠️ <strong>Good Attempt!</strong><br>
+            <strong>Score:</strong> ${codeAnalysis.score}/100<br>
+            <strong>Feedback:</strong> ${codeAnalysis.feedback}<br>
+            <strong>Suggestions:</strong><br>
+            ${codeAnalysis.suggestions.map(s => `• ${s}`).join('<br>')}
+          `
+        };
+      } else {
+        return {
+          type: 'error',
+          message: `
+            ❌ <strong>Needs Improvement</strong><br>
+            <strong>Score:</strong> ${codeAnalysis.score}/100<br>
+            <strong>Issues Found:</strong><br>
+            ${codeAnalysis.issues.map(i => `• ${i}`).join('<br>')}<br>
+            <strong>Hint:</strong> ${codeAnalysis.hint}
+          `
+        };
+      }
+    }
+    
+    function analyzeCode(code, language, problem) {
+      let score = 30; // Base score
+      const feedback = [];
+      const suggestions = [];
+      const issues = [];
+      
+      // Basic code quality checks
+      if (code.length > 50) score += 10;
+      if (code.includes('for') || code.includes('while')) score += 15;
+      if (code.includes('if')) score += 10;
+      
+      // Language-specific checks
+      if (language === 'python') {
+        if (code.includes('def ')) score += 10;
+        if (code.includes(':')) score += 5;
+        if (code.includes('return')) score += 10;
+      } else if (language === 'java') {
+        if (code.includes('class ')) score += 10;
+        if (code.includes('public ')) score += 5;
+        if (code.includes('return')) score += 10;
+      }
+      
+      // Problem-specific checks
+      if (problem && problem.title.toLowerCase().includes('two sum')) {
+        if (code.toLowerCase().includes('hash') || code.toLowerCase().includes('dict') || code.toLowerCase().includes('map')) {
+          score += 20;
+          feedback.push('Great use of hash table for optimization!');
+        }
+        if (code.includes('target')) {
+          score += 10;
+        }
+      }
+      
+      // Generate feedback based on score
+      if (score >= 80) {
+        feedback.push('Your solution demonstrates strong problem-solving skills.');
+        feedback.push('The code structure is well-organized and efficient.');
+      } else if (score >= 50) {
+        suggestions.push('Consider optimizing the time complexity');
+        suggestions.push('Add more edge case handling');
+        suggestions.push('Consider using more efficient data structures');
+      } else {
+        issues.push('The solution may not handle all test cases');
+        issues.push('Consider reviewing the problem requirements');
+        issues.push('The code structure needs improvement');
+      }
+      
+      return {
+        score: Math.min(score, 100),
+        feedback: feedback.join(' '),
+        suggestions: suggestions,
+        issues: issues,
+        timeComplexity: score >= 70 ? 'O(n)' : 'O(n²)',
+        spaceComplexity: score >= 60 ? 'O(n)' : 'O(1)',
+        hint: 'Try using a hash table to store values and their indices for O(n) time complexity.'
+      };
+    }
+    
+    function markProblemAsCompleted() {
+      if (!currentProblem) return;
+      
+      // Store completion in localStorage
+      const completedProblems = JSON.parse(localStorage.getItem('completedProblems') || '[]');
+      const problemId = currentProblem.id || currentProblem.title;
+      
+      if (!completedProblems.includes(problemId)) {
+        completedProblems.push(problemId);
+        localStorage.setItem('completedProblems', JSON.stringify(completedProblems));
+      }
+      
+      // Update UI
+      const statusElement = document.getElementById('problemStatus');
+      statusElement.textContent = 'Completed ✅';
+      statusElement.className = 'progress-status status-completed';
+    }
+    
+    function checkProblemStatus() {
+      if (!currentProblem) return;
+      
+      const completedProblems = JSON.parse(localStorage.getItem('completedProblems') || '[]');
+      const problemId = currentProblem.id || currentProblem.title;
+      const statusElement = document.getElementById('problemStatus');
+      
+      if (completedProblems.includes(problemId)) {
+        statusElement.textContent = 'Completed ✅';
+        statusElement.className = 'progress-status status-completed';
+      } else {
+        statusElement.textContent = 'Not Attempted';
+        statusElement.className = 'progress-status status-pending';
+      }
+    }
+    
+    function goBack() {
+      // Try to go back to the previous page
+      if (document.referrer && document.referrer.includes('index.html')) {
+        window.history.back();
+      } else {
+        // Fallback to index page
+        window.location.href = 'index.html';
+      }
+    }
+    
+    // Language selector change handler
+    document.getElementById('languageSelector').addEventListener('change', updateCodeTemplate);
+    
+    // Auto-save code to localStorage
+    let saveTimeout;
+    document.getElementById('codeInput').addEventListener('input', function() {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        if (currentProblem) {
+          const problemId = currentProblem.id || currentProblem.title;
+          const language = document.getElementById('languageSelector').value;
+          const key = `code_${problemId}_${language}`;
+          localStorage.setItem(key, this.value);
+        }
+      }, 1000);
+    });
+    
+    // Load saved code when language changes
+    function loadSavedCode() {
+      if (!currentProblem) return;
+      
+      const problemId = currentProblem.id || currentProblem.title;
+      const language = document.getElementById('languageSelector').value;
+      const key = `code_${problemId}_${language}`;
+      const savedCode = localStorage.getItem(key);
+      
+      if (savedCode) {
+        document.getElementById('codeInput').value = savedCode;
+      } else {
+        updateCodeTemplate();
+      }
+    }
+    
+    // Override updateCodeTemplate to check for saved code first
+    const originalUpdateCodeTemplate = updateCodeTemplate;
+    updateCodeTemplate = function() {
+      loadSavedCode();
+    };
+    
+    // Initialize page when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initializePage);
+    
+    // Handle keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      // Ctrl/Cmd + Enter to submit
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        evaluateCode();
+      }
+      
+      // Ctrl/Cmd + K to clear code
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        clearCode();
+      }
+    });
+  </script>
+</body>
+</html>
